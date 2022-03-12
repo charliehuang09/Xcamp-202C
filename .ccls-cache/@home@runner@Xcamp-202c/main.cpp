@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -6,26 +7,46 @@
 #include <map>
 #include <stdio.h>
 using namespace std;
-int main() {
-    int length, answers;
-    cin >> length >> answers;
-    map<int, int> input;
-    cout << input[213123];
-    return 0;
-    int t;
-    for (int i = 0; i < length; i++){
-        cin >> t;
-        input[t] = i + 1;
+int largest (stack <int> stak){
+    int largest = 0;
+    while (!stak.empty()){
+        if (largest < stak.top()){
+            largest = stak.top();
+        }
+        stak.pop();
     }
-    for (int i = 0; i < answers; i++){
-        cin >> t;
-        if (input[t] == 0){
-            cout << length + 1;
+    return largest;
+}
+int main() {
+  int n;
+    cin >> n;
+    stack <int> stack;
+    int a;
+    for(int i = 0; i < n; i++){
+        cin>>a;
+        if(a == 0){
+            cin >> a;
+            stack.push(a);
+        }else if(a == 1 && stack.size() > 0){
+            stack.pop();
         }
-        else{
-            cout << input[t];
+        else if (a == 2){
+            cout << largest(stack) << "\n";
         }
-        cout << "\n";
     }
 
 }
+// 33
+// 0 1
+// 0 2
+// 2
+// 0 4
+// 0 2
+// 2
+// 1
+// 2
+// 1
+// 1
+// 2
+// 1
+// 2
