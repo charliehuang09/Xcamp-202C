@@ -5,7 +5,8 @@
 #include <stack>
 #include <map>
 #include <stdio.h>
-#include <queue>
+#include <stack>
+#include <stdlib.h> 
 using namespace std;
 int main() {
 }

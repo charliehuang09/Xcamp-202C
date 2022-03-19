@@ -6,6 +6,7 @@
 #include <map>
 #include <stdio.h>
 #include <stack>
+#include <stdlib.h> 
 using namespace std;
 int main() {
 }
