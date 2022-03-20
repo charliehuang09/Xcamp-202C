@@ -32,10 +32,14 @@ bool inbound(pos input){
     return true;
 }
 int main() {
-    cin >> n >> m >> a >> b;
+    // cin >> n >> m >> a >> b;
+    scanf("%d", &n);
+    scanf("%d", &m);
+    scanf("%d", &a);
+    scanf("%d", &b);
     vector<int> t;
     for (int i = 0; i < m; i++){//innitilize
-        t.push_back(-1);
+        t.push_back(2147483647);
     }
     for (int i = 0; i < n; i++){
         input.push_back(t);
@@ -43,7 +47,8 @@ int main() {
     pos t1;
     queue<pos> q;
     for (int i = 0; i < a; i++){//infected
-        cin >> t1.x >> t1.y;
+        scanf("%d", &t1.x);
+        scanf("%d", &t1.y);
         t1.x -= 1;
         t1.y -= 1;
         q.push(t1);
@@ -57,11 +62,6 @@ int main() {
             newpt.x = pt.x + dx[i];
             newpt.y = pt.y + dy[i];
             if (inbound(newpt)){
-                if (input[newpt.x][newpt.y] == -1){//not filled
-                    input[newpt.x][newpt.y] = input[pt.x][pt.y] + 1;
-                    q.push(newpt);
-                    continue;
-                }
                 if (input[pt.x][pt.y] + 1 < input[newpt.x][newpt.y]){
                     input[newpt.x][newpt.y] = input[pt.x][pt.y] + 1;
                     q.push(newpt);
@@ -78,7 +78,10 @@ int main() {
 //    }
     for (int i = 0; i < b; i++){
         int x, y;
-        cin >> x >> y;
-        cout << input[x - 1][y - 1] << "\n";
+        scanf("%d", &x);
+        scanf("%d", &y);
+        // cout << input[x - 1][y - 1] << "\n";
+        printf("%d", (input[x-1][y-1]));
+        cout<<"\n";
     }
 }
