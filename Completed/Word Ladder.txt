@@ -41,7 +41,7 @@ bool neighbors(string first, string second){
     if (difference == 0){
         for (int i = 0; i < first.size(); i++){
             if (first[i] != second[i]){
-                difference++;
+                differences++;
             }
         }
     }
@@ -59,14 +59,10 @@ int main() {
     for (int i = 0; i < length; i++){
         cin >> input[i];
     }
-    int qcheck[length + 1];
-    int rqcheck[length + 1];
-    for (int i = 0; i < length; i++){//innitilayze
-        qcheck[i] = -1;
-        rqcheck[i] = -1;
-    }
-    qcheck[length] = 0;
-    rqcheck[length] = 0;
+    map<string, int> qcheck;
+    map<string, int> rqcheck;
+    qcheck[start] = 0;
+    rqcheck[start] = 0;
     queue<string> q;
     queue<string> rq;
     q.push(start);
@@ -75,17 +71,43 @@ int main() {
         if (!q.empty()){
             string word = q.front();
             q.pop();
-            for (int i = 0; i <= length; i++){
-                if (qcheck[i] == -1){//loop check
-                    if (neighbors(word, input[i])){//if neighbors
-                        qcheck[i] = 
+            for (int i = 0; i < length; i++){
+                string newword = input[i];
+                if (qcheck[newword] == 0){//loop check
+                    if (neighbors(word, newword) && word != newword){//if neighbors
+                        qcheck[newword] = qcheck[word] + 1;
+                        q.push(newword);
+                        if (rqcheck[newword] != 0 || newword == end){
+                            cout << rqcheck[newword] + qcheck[newword];
+                            return 0;
+                        }
                     }
                 }
             }
         }
         if (!rq.empty()){
+            string word = rq.front();
+            rq.pop();
+            for (int i = 0;i < length; i++){
+                string newword = input[i];
+                if (rqcheck[newword] == 0){
+                    if (neighbors(word, newword) && word != newword){
+                        rqcheck[newword] = rqcheck[word] + 1;
+                        rq.push(newword);
+                        if (qcheck[newword] != 0 || newword == start){
+                            cout << rqcheck[newword] + qcheck[newword];
+                            return 0;
+                        }
+                    }
+                }
+            }
         }
     }
+    cout << -1;
+//    for (int i = 0; i < length; i++){
+//        cout << qcheck[input[i]] << "\n";
+//    }
+//    return 0;
 }
 /*
 hello
