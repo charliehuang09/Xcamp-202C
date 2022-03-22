@@ -1,0 +1,60 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <set>
+#include <stack>
+#include <map>
+#include <stdio.h>
+#include <stack>
+#include <stdlib.h>
+#include <queue>
+using namespace std;
+struct cup{
+    int capacity;
+    int current;
+};
+struct state_{
+    cup cup1;
+    cup cup2;
+    cup cup3;
+};
+int main() {
+    //innitilayze
+    state_ input;
+    cin >> input.cup1.capacity >> input.cup2.capacity >> input.cup3.capacity;
+    input.cup1.current = input.cup1.capacity;
+    input.cup2.current = 0;
+    input.cup3.current = 0;
+    if (input.cup1.current % 2 == 1){
+        cout << "NO";
+        return 0;
+    }
+    queue<state_> q;
+    queue<state_> rq;
+    q.push(input);
+    int tr = input.cup1.current / 2;
+    input.cup1.current = tr;
+    input.cup2.current = tr;
+    input.cup3.current = 0;
+    rq.push(input);
+    input.cup1.current = tr;
+    input.cup2.current = 0;
+    input.cup3.current = tr;
+    rq.push(input);
+    input.cup1.current = 0;
+    input.cup2.current = tr;
+    input.cup3.current = tr;
+    rq.push(input);
+    
+    //bfs
+    while (!q.empty() && !rq.empty()){
+        if (!q.empty()){
+            state_ state = q.front();
+            q.pop();
+
+        }
+        if (!rq.empty()){
+
+        }
+    }
+}
