@@ -1,0 +1,295 @@
+#include <iostream>
+#include <vector>
+#include <vector>
+#include <algorithm>
+#include <set>
+#include <stack>
+#include <map>
+#include <stdio.h>
+#include <stack>
+#include <stdlib.h>
+#include <queue>
+using namespace std;
+const int out[3][3] = {
+        {1,2,3},
+        {8,0,4},
+        {7,6,5}
+};
+int dx[4] = {0,0,1,-1};
+int dy[4] = {1,-1,0,0};
+struct pos{
+    int x;
+    int y;
+};
+
+pos find_zero(vector<vector<int>> input){
+    pos output;
+    for (int i = 0; i < 3; i++){
+        for (int j = 0; j < 3; j++){
+            if (input[i][j] == 0){
+               output.x = i;
+               output.y = j;
+               return output;
+            }
+        }
+    }
+    return output;
+}
+
+bool inbound(int x, int y){
+    if (x < 0){
+        return false;
+    }
+    if (y < 0){
+        return false;
+    }
+    if (x >= 3){
+        return false;
+    }
+    if (y >= 3){
+        return false;
+    }
+    return true;
+}
+
+void print(vector<vector<int>> input){
+    for (int i = 0; i < 3; i++){
+        for (int j = 0; j < 3; j++){
+            cout << input[i][j] << " ";
+        }
+        cout << "\n";
+    }
+    cout << "\n";
+}
+
+int main() {
+    //cin
+    vector<vector<int>> input;
+    vector<int> t1;
+    string t2;
+    cin >> t2;
+    for (int i = 0; i < 3; i++){
+        for (int j = 0; j < 3; j++){
+            t1.push_back(t2[(i * 3) + j] - '0');
+        }
+        input.push_back(t1);
+        t1.clear();
+    }
+
+    vector<vector<int>> target;
+    for (int i = 0; i < 3; i++){
+        t1.clear();
+        for (int j = 0; j < 3; j++){
+            t1.push_back(out[i][j]);
+        }
+        target.push_back(t1);
+    }
+
+    //bfs
+
+    queue<vector<vector<int>>> q;
+    queue<vector<vector<int>>> rq;
+    map<vector<vector<int>>, int> qcheck;
+    map<vector<vector<int>>, int> rqcheck;
+
+    q.push(input);
+    rq.push(target);
+    qcheck[input] = 1;
+    rqcheck[target] = 1;
+    vector<vector<int>> pt;
+    vector<vector<int>> newpt;
+    pos zero;
+
+    while (!q.empty() && !rq.empty()){
+        if (!q.empty()){
+            pt = q.front();
+            zero = find_zero(pt);
+            q.pop();
+
+            for (int i = 0; i < 4; i++){
+                newpt = pt;//reset newpt
+                if (inbound(zero.x + dx[i], zero.y + dy[i])){
+                    swap(newpt[zero.x + dx[i]][zero.y + dy[i]], newpt[zero.x][zero.y]);
+                    if (qcheck[newpt] == 0){
+                        q.push(newpt);
+                        qcheck[newpt] = qcheck[pt] + 1;
+//                        print(newpt);
+                        if (rqcheck[newpt] != 0){
+//                            print(newpt);
+                            cout << qcheck[newpt] + rqcheck[newpt] - 2;
+                            return 0;
+                        }
+                    }
+                }
+            }
+        }
+        if (!rq.empty()){
+            pt = rq.front();
+            zero = find_zero(pt);
+            rq.pop();
+
+            for (int i = 0; i < 4; i++){
+                newpt = pt;//reset newpt
+                if (inbound(zero.x + dx[i], zero.y + dy[i])){
+                    swap(newpt[zero.x + dx[i]][zero.y + dy[i]], newpt[zero.x][zero.y]);
+                    if (rqcheck[newpt] == 0){
+                        rq.push(newpt);
+                        rqcheck[newpt] = rqcheck[pt] + 1;
+                        if (qcheck[newpt] != 0){
+                            cout << qcheck[newpt] + rqcheck[newpt] - 2;
+                            return 0;
+                        }
+                    }
+                }
+            }
+        }
+    }#include <iostream>
+#include <vector>
+#include <vector>
+#include <algorithm>
+#include <set>
+#include <stack>
+#include <map>
+#include <stdio.h>
+#include <stack>
+#include <stdlib.h>
+#include <queue>
+using namespace std;
+        const int out[3][3] = {
+                {1,2,3},
+                {8,0,4},
+                {7,6,5}
+        };
+        int dx[4] = {0,0,1,-1};
+        int dy[4] = {1,-1,0,0};
+        struct pos{
+            int x;
+            int y;
+        };
+
+        pos find_zero(vector<vector<int>> input){
+            pos output;
+            for (int i = 0; i < 3; i++){
+                for (int j = 0; j < 3; j++){
+                    if (input[i][j] == 0){
+                        output.x = i;
+                        output.y = j;
+                        return output;
+                    }
+                }
+            }
+            return output;
+        }
+
+        bool inbound(int x, int y){
+            if (x < 0){
+                return false;
+            }
+            if (y < 0){
+                return false;
+            }
+            if (x >= 3){
+                return false;
+            }
+            if (y >= 3){
+                return false;
+            }
+            return true;
+        }
+
+        void print(vector<vector<int>> input){
+            for (int i = 0; i < 3; i++){
+                for (int j = 0; j < 3; j++){
+                    cout << input[i][j] << " ";
+                }
+                cout << "\n";
+            }
+            cout << "\n";
+        }
+
+        int main() {
+            //cin
+            vector<vector<int>> input;
+            vector<int> t1;
+            string t2;
+            cin >> t2;
+            for (int i = 0; i < 3; i++){
+                for (int j = 0; j < 3; j++){
+                    t1.push_back(t2[(i * 3) + j] - '0');
+                }
+                input.push_back(t1);
+                t1.clear();
+            }
+
+            vector<vector<int>> target;
+            for (int i = 0; i < 3; i++){
+                t1.clear();
+                for (int j = 0; j < 3; j++){
+                    t1.push_back(out[i][j]);
+                }
+                target.push_back(t1);
+            }
+
+            //bfs
+
+            queue<vector<vector<int>>> q;
+            queue<vector<vector<int>>> rq;
+            map<vector<vector<int>>, int> qcheck;
+            map<vector<vector<int>>, int> rqcheck;
+
+            q.push(input);
+            rq.push(target);
+            qcheck[input] = 1;
+            rqcheck[target] = 1;
+            vector<vector<int>> pt;
+            vector<vector<int>> newpt;
+            pos zero;
+
+            while (!q.empty() && !rq.empty()){
+                if (!q.empty()){
+                    pt = q.front();
+                    zero = find_zero(pt);
+                    q.pop();
+
+                    for (int i = 0; i < 4; i++){
+                        newpt = pt;//reset newpt
+                        if (inbound(zero.x + dx[i], zero.y + dy[i])){
+                            swap(newpt[zero.x + dx[i]][zero.y + dy[i]], newpt[zero.x][zero.y]);
+                            if (qcheck[newpt] == 0){
+                                q.push(newpt);
+                                qcheck[newpt] = qcheck[pt] + 1;
+                                //                        print(newpt);
+                                if (rqcheck[newpt] != 0){
+                                    //                            print(newpt);
+                                    cout << qcheck[newpt] + rqcheck[newpt] - 2;
+                                    return 0;
+                                }
+                            }
+                        }
+                    }
+                }
+                if (!rq.empty()){
+                    pt = rq.front();
+                    zero = find_zero(pt);
+                    rq.pop();
+
+                    for (int i = 0; i < 4; i++){
+                        newpt = pt;//reset newpt
+                        if (inbound(zero.x + dx[i], zero.y + dy[i])){
+                            swap(newpt[zero.x + dx[i]][zero.y + dy[i]], newpt[zero.x][zero.y]);
+                            if (rqcheck[newpt] == 0){
+                                rq.push(newpt);
+                                rqcheck[newpt] = rqcheck[pt] + 1;
+                                if (qcheck[newpt] != 0){
+                                    cout << qcheck[newpt] + rqcheck[newpt] - 2;
+                                    return 0;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        //123864705
+}
+//123864705

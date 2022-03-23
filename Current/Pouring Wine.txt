@@ -11,47 +11,81 @@
 using namespace std;
 struct cup{
     int capacity;
-    int current;
+    int current = 0;
 };
-struct state_{
-    cup cup1;
-    cup cup2;
-    cup cup3;
+struct node{
+    int i = -1;
 };
-int main() {
-    //innitilayze
-    state_ input;
-    cin >> input.cup1.capacity >> input.cup2.capacity >> input.cup3.capacity;
-    input.cup1.current = input.cup1.capacity;
-    input.cup2.current = 0;
-    input.cup3.current = 0;
-    if (input.cup1.current % 2 == 1){
-        cout << "NO";
-        return 0;
+vector<cup> pour(vector<cup> input, int a, int b){
+    if (input[a].current + input[b].current <= input[b].current){
+        input[b].current += input[a].current;
+        input[a].current = 0;
     }
-    queue<state_> q;
-    queue<state_> rq;
+    else{
+        input[b].current += input[a].current - input[b].capacity;
+        input[a].current -= input[a].current - input[b].capacity;
+    }
+    return input;
+}
+int main() {
+    vector<cup> input;//cin
+    cup t;
+    for (int i = 0; i < 3; i++){
+        cin >> t.capacity;
+        input.push_back(t);
+    }
+    input[0].current = input[0].capacity;
+
+
+    //bfs
+        //innitialyze q's
+    node p;
+    queue<vector<cup>> q;
+    queue<vector<cup>> rq;
+    map<vector<cup>, node> qcheck;
+    map<vector<cup>, node> rqcheck;
     q.push(input);
-    int tr = input.cup1.current / 2;
-    input.cup1.current = tr;
-    input.cup2.current = tr;
-    input.cup3.current = 0;
+    p.i = 0;
+    qcheck[input] = p;
+    int half = input[0].current / 2;
+    input[0].capacity = half;
+    input[1].capacity = half;
+    input[2].capacity = 0;
     rq.push(input);
-    input.cup1.current = tr;
-    input.cup2.current = 0;
-    input.cup3.current = tr;
+    rqcheck[input] = p;
+    input[0].capacity = half;
+    input[1].capacity = 0;
+    input[2].capacity = half;
     rq.push(input);
-    input.cup1.current = 0;
-    input.cup2.current = tr;
-    input.cup3.current = tr;
+    rqcheck[input] = p;
+    input[0].capacity = 0;
+    input[1].capacity = half;
+    input[2].capacity = half;
     rq.push(input);
-    
+    rqcheck[input] = p;
+
     //bfs
     while (!q.empty() && !rq.empty()){
         if (!q.empty()){
-            state_ state = q.front();
+            vector<cup> glass = q.front();
             q.pop();
-
+            for (int i = 0; i < 3; i++){
+                for (int j = 0; j < 3; j++){
+                    vector<cup> newglass = glass;
+                    if (i != j){
+                        newglass = pour(newglass, i, j);
+                        node a;
+                        if (qcheck[newglass].i == -1){//not visited
+                            qcheck[newglass].i = qcheck[glass].i + 1;
+                            q.push(newglass);
+                            if (rqcheck[newglass].i != -1){
+                                cout << rqcheck[newglass].i + qcheck[newglass].i;
+                                return 0;
+                            }
+                        }
+                    }
+                }
+            }
         }
         if (!rq.empty()){
 
