@@ -1,0 +1,65 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <set>
+#include <stack>
+#include <map>
+#include <stdio.h>
+#include <stack>
+#include <stdlib.h>
+#include <queue>
+using namespace std;
+struct pt_{
+    int size;
+    unsigned long long int number;
+    int remainder;
+};
+
+void print_q(queue<pt_> input){
+    while (!input.empty()){
+        cout << input.front().number << " " << input.front().remainder << "\n";
+        input.pop();
+    }
+}
+
+int main(){
+    int num, length;
+    cin >> num >> length;
+    int num_list[length];
+    for (int i = 0; i < length; i++){
+        cin >> num_list[i];
+    }
+    sort (num_list, num_list + length);
+    queue<pt_> q;
+    pt_ t;
+
+    for (int i = 0; i < length; i++){
+        if (num_list[i] != 0){
+            t.number = num_list[i];
+            t.remainder = num % t.number;
+            t.size = 0;
+            q.push(t);
+        }
+    }
+//    print_q(q);
+
+    while (!q.empty()){
+        pt_ pt = q.front();
+        q.pop();
+        for (int i = 0; i < length; i++){
+            pt_ newpt = pt;
+            newpt.number = newpt.number * 10 + num_list[i];
+            newpt.remainder = newpt.number % num;
+            newpt.size++;
+            if (newpt.size >= 501){
+                cout << 0;
+                return 0;
+            }
+            if (newpt.remainder == 0){
+                cout << newpt.number;
+                return 0;
+            }
+            q.push(newpt);
+        }
+    }
+}
