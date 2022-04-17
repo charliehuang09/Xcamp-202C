@@ -11,7 +11,7 @@
 using namespace std;
 struct pt_{
     int size;
-    unsigned long long int number;
+    string number;
     int remainder;
 };
 
@@ -21,6 +21,24 @@ void print_q(queue<pt_> input){
         input.pop();
     }
 }
+
+int remainder(string str, int r)
+{
+    // len is variable to store the
+    // length of number string.
+    int len = str.length();
+
+    int num, rem = 0;
+
+    // loop that find remainder
+    for (int i = 0; i < len; i++) {
+        num = rem * 10 + (str[i] - '0');
+        rem = num % r;
+    }
+
+    return rem;
+}
+
 
 int main(){
     int num, length;
@@ -35,31 +53,34 @@ int main(){
 
     for (int i = 0; i < length; i++){
         if (num_list[i] != 0){
-            t.number = num_list[i];
-            t.remainder = num % t.number;
+            t.number = num_list[i] + '0';
+            int it = t.remainder * 10 + num_list[i];
+            t.remainder = it % num;
             t.size = 0;
             q.push(t);
         }
     }
-//    print_q(q);
 
     while (!q.empty()){
         pt_ pt = q.front();
         q.pop();
         for (int i = 0; i < length; i++){
             pt_ newpt = pt;
-            newpt.number = newpt.number * 10 + num_list[i];
-            newpt.remainder = newpt.number % num;
+            newpt.number += num_list[i] + '0';
+            int it = newpt.remainder * 10 + num_list[i];
+            newpt.remainder = it % num;
             newpt.size++;
-            if (newpt.size >= 501){
-                cout << 0;
-                return 0;
+            if (newpt.size < 510){
+                q.push(newpt);
             }
-            if (newpt.remainder == 0){
+            if (remainder(newpt.number, num) == 0){
                 cout << newpt.number;
                 return 0;
             }
-            q.push(newpt);
         }
     }
+
+
+    cout << 0;
+    return 0;
 }
