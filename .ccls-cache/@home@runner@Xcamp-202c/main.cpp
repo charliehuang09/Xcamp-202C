@@ -8,58 +8,63 @@
 #include <stack>
 #include <stdlib.h>
 #include <queue>
+#include <bitset>
 using namespace std;
-int input;
 
-void get_num(vector<char> input){
+int dx[4] = {0,0,-1,1};
+int dy[4] = {1,-1,0,0};
+int col, row;
+int output = 0;
 
-    vector<int> nums;
-
-    for (int i = 0; i < input.size(); i++){
-        if (input[i] == ' '){
-            
-        }
-        else{
-            nums.push_back(i + 1);
-        }
+bool inbound(int x, int y){
+    if (x < 0){
+        return false;
     }
-
-    if (nums == 0){
-        for (int i = 0; i < input.size(); i++){
-            cout << i + 1;
-            cout << input[i];
-        }
-        cout << input.size() + 1;
-        cout << "\n";
+    if (y < 0){
+        return false;
     }
-    return;
+    if (x >= col){
+        return false;
+    }
+    if (y >= row){
+        return false;
+    }
+    return true;
 }
 
-void dfs(vector<char> sym){
-    if (sym.size() == 6){
-        get_num(sym);
+void dfs (vector<bitset<7>> maze, int x, int y){
+    if (x == col - 1 && y == 0){//changed
+        output++;
         return;
-//        for (int i = 0; i < sym.size(); i++){
-//            cout << sym[i] << "->";
-//        }
-//        cout << "\n";
-//        return;
     }
-    vector<char> newsym = sym;
-    newsym.push_back(' ');
-    dfs(newsym);
-    newsym.pop_back();
-    newsym.push_back('+');
-    dfs(newsym);
-    newsym.pop_back();
-    newsym.push_back('-');
-    dfs(newsym);
-    newsym.pop_back();
-    return;
+    maze[x][y].flip();
+    for (int i = 0; i < 4; i++){
+        if (inbound(x + dx[i], y + dy[i])){
+            if (maze[x + dx[i]][y + dy[i]]){
+                dfs(maze, x + dx[i], y + dy[i]);
+            }
+        }
+    }
 }
+int main(){
+    cin >> col >> row;
+    vector<bitset<7>> maze;
 
-int main() {
-    cin >> input;
-    vector<char> perameter;
-    dfs(perameter);
+    string t;
+    for (int i = 0; i < col; i++){
+        cin >> t;
+        maze.push_back(bitset<7>(t, 0, t.size(), '#', '*'));
+    }
+
+    dfs(maze, 0,row - 1);// changed
+
+    cout << output;
+
+    return 0;
 }
+//5 6
+//*****#
+//*###*#
+//*###*#
+//*###*#
+//******
